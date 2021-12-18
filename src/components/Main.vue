@@ -1,16 +1,13 @@
 <template>
     <main class="container mt-5">
         <div class="d-flex flex-wrap">
-            <Disc
-                v-for="(discItem, index) in filteredDiscs"
-                :key="index"
-                :disc="discItem"
-            />
+            <Disc v-for="(discItem, index) in filteredDiscs" :key="index" :disc="discItem"/>
         </div>
     </main>
 </template>
 
 <script>
+import data from '../share/data';
 import axios from "axios";
 import Disc from "./Disc";
 
@@ -19,26 +16,20 @@ export default {
     components: {
         Disc,
     },
-    props: {
-        selectedGenre: String,
-    },
     computed: {
-        // questa computed si attiva tutte le volte che cambia genreToSearch
-        // se la stringa del genere da cercare è vuota restituisco tutta la lista
-        // arimenti la giltro in base al genere
         filteredDiscs() {
-            if (this.selectedGenre === "") {
+            if (data.genreToSearch === "") {
                 return this.discs;
             }
             return this.discs.filter(
-                (item) => item.genre === this.selectedGenre
+                (item) => item.genre === data.genreToSearch
             );
         },
     },
     data() {
         return {
-            discs: [],
-            genres: [],
+            data,
+            discs: []
         };
     },
     created() {
@@ -51,12 +42,10 @@ export default {
                 // poi facciamo vedere come popolare la select dinamicamente
                 // recuperando i generi direttamente dall'array di dischi
                 this.discs.forEach((disc) => {
-                    if (!this.genres.includes(disc.genre)) {
-                        this.genres.push(disc.genre);
+                    if (!data.genresList.includes(disc.genre)) {
+                        data.genresList.push(disc.genre);
                     }
                 });
-                // passo la lista dei generi, che servirà per la select, con un $emit
-                this.$emit("genresReady", this.genres);
             })
             .catch((err) => {
                 console.log(err);

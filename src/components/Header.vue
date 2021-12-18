@@ -4,17 +4,9 @@
             <img src="../assets/img/spotify-logo.png" alt="Spotify" />
         </div>
         <div>
-            <select
-                v-model="genreFilter"
-                @change="$emit('changedGenre', genreFilter)"
-                class="form-select mt-3"
-            >
+            <select v-model="data.genreToSearch" class="form-select mt-3">
                 <option value="">Seleziona un genere</option>
-                <option
-                    v-for="(genre, index) in genres"
-                    :key="index"
-                    :value="genre"
-                >
+                <option v-for="(genre, index) in data.genresList" :key="index" :value="genre">
                     {{ genre }}
                 </option>
             </select>
@@ -23,14 +15,13 @@
 </template>
 
 <script>
+import data from '../share/data';
+
 export default {
     name: "Haeder",
-    props: {
-        genres: Array,
-    },
     data() {
         return {
-            genreFilter: "",
+            data
         };
     },
     methods: {},
