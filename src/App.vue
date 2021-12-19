@@ -15,12 +15,6 @@ export default {
     components: {
         Header,
         Main,
-    },
-    data() {
-        return {
-            genresList: [],
-            genreToSearch: "",
-        };
     }
 };
 </script>
